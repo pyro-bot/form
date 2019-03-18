@@ -1,0 +1,12 @@
+{% extends "startform.html" %}
+
+{% block title %}
+
+{% endblock%}
+
+{% block content %}
+<div class="card text-center">  <h1 class="mb-5">Типы запросов:</h1></div>
+    {% for cate in cates %}
+        <h3><a href="{{ cate.get_absolute_url }}">{{cate.category}}</a></h3>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "startform.html" %}
+
+{% block title %}
+    Запросы -{{block.super}}
+{% endblock%}
+
+{% block content %}
+<div class="card text-center">  <h1 class="mb-5">Запросы:</h1>    </div>
+    {% for post in posts %}
+        {% include 'includes/include.html' %}
+    {% endfor %}
+{% endblock %}

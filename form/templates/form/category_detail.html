@@ -1,0 +1,12 @@
+{% extends "startform.html" %}
+
+{% block title %}
+    {{cates.category}}-{{block.super}}
+{% endblock%}
+
+{% block content %}
+<div class="card text-center">  <h1 class="mb-5">{{cates.category}}</h1>    </div>
+    {% for post in category.pos.all %}
+        {% include 'includes/include.html' %}
+    {% endfor %}
+{% endblock %}
