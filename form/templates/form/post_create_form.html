@@ -1,12 +1,13 @@
 {% extends "startform.html" %}
 
 {% block title %}
-    Создание запроса -{{block.super}}
+    Создание запроса
 {% endblock%}
 
 {% block content %}
     <form method="post">{% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Save">
+            <input type="submit" value="Сохранить">
     </form>
+    
 {% endblock %}
