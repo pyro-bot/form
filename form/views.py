@@ -66,7 +66,9 @@ class PostCreate(CreateView,SuccessMessageMixin):
     context_object_name='cates'
     template_name_suffix='_create_form'
     success_url='/create/'
-    pk_url_kwarg='pk'
-    success_message = "%(calculated_field)s was created successfully"
+    
+    def form_valid(self,form):
+        form.instance.category=Cate.objects.get(pk=self.kwargs.get('pk'))
+        return super(PostCreate,self).form_valid(form)
 
     
