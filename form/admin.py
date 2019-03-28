@@ -1,5 +1,5 @@
 from django.contrib import admin
-from form.models import Post,Cate
+from form.models import Context, Intent
 
-admin.site.register(Post)
-admin.site.register(Cate)
+admin.site.register(Context)
+admin.site.register(Intent)

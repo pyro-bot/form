@@ -1,0 +1,26 @@
+{% extends "startform.html" %}
+
+{% block title %}
+    Типы запросов
+{% endblock %}
+
+{% block content %}
+    <div class="card text-center"><h1 class="mb-5">Примеры:</h1></div>
+    {% for obj in object_list %}
+        <div class="row">
+            <div class="col-xs-6">
+                {{ obj }}
+            </div>
+            <div class="col-xs-3">
+                <a href="{% url 'form:intent-list' pk=obj.pk %}">
+                    <button class="btn btn-default">Посмотреть</button>
+                </a>
+            </div>
+            <div class="col-xs-3">
+                <a href="{% url 'form:intent-select' pk=obj.pk %}">
+                    <button class="btn btn-default">Добавить</button>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

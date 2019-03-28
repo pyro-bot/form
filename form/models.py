@@ -1,24 +1,34 @@
 from django.db import models
-from django.shortcuts import reverse
-
-class Post (models.Model):
-    category=models.ForeignKey('Cate', on_delete=models.CASCADE, related_name='pos',default =None)
-    body = models.TextField()
-
-    def __str__(self):
-        return self.body
 
 
-class Cate (models.Model):
-    category = models.TextField()
 
-    def __str__ (self):
-        return self.category
+class Intent(models.Model):
+    name = models.CharField(max_length=255, unique=True, verbose_name='Название')
+    context = models.ForeignKey('Context', on_delete=models.CASCADE, verbose_name='Контекст')
 
-    def get_absolute_url(self):
-        return reverse('cate_detail_url', kwargs={'pk': self.id})
-    
-    def get_create_url(self):
-        return reverse('post_create_detail_url', kwargs={'pk': self.id})
+    def __str__(self): return self.name
 
-    
+    class Meta:
+        verbose_name = 'Намерение'
+        verbose_name_plural = 'Намерения'
+
+
+class Context(models.Model):
+    name = models.CharField(max_length=255, unique=True, verbose_name='Название')
+
+    def __str__(self): return self.name
+
+    class Meta:
+        verbose_name_plural = 'Контексты'
+        verbose_name = 'Контекст'
+
+
+class TrainExample(models.Model):
+    intent = models.ForeignKey(Intent, on_delete=models.CASCADE, verbose_name='Намерение')
+    example = models.TextField(verbose_name='Тренеровочный пример')
+
+    def __str__(self): return self.example
+
+    class Meta:
+        verbose_name = 'Тренеровочный пример'
+        verbose_name_plural = 'Тренеровочные примеры'

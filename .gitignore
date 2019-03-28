@@ -7,3 +7,6 @@ db.sqlite3
 .DS_Store
 .idea
 venv/
+
+uwsgi_config.ini
+uwsgi_params

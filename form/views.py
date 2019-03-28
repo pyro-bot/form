@@ -1,74 +1,39 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django import forms
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView,DetailView, RedirectView
 from django.contrib.messages.views import SuccessMessageMixin
 
 
-from .models import Post,Cate
-from .form import myform
+from . import models
+from . import form
+
+class Index(RedirectView):
+    url = reverse_lazy('form:context-list')
 
 
-class ListPost(ListView):
-    
-    template_name='form/allpost.html'
-    context_object_name='posts'
-
-    def get_queryset(self):
-        return Post.objects.all().order_by('-id')
-
-class ListCate(ListView):
-    template_name='form/allcate.html'
-    context_object_name='cates'
-
-    def get_queryset(self):
-        return Cate.objects.all()
-
-class DetailCate(DetailView):
-    model=Cate
-    template_name='form/category_detail.html'
-    context_object_name='cates'
-
-class ListCreateCate(ListView):
-    template_name='form/create_cate.html'
-    context_object_name='cates'
-
-    def get_queryset(self):
-        return Cate.objects.all()
+class ContextList(ListView):
+    model = models.Context
+    template_name = 'form/context-list.html'
 
 
-# def posts_list(request):
-#     posts = Post.objects.all().order_by('-id')
-#     return render(request,'form/allpost.html',context={'posts':posts})
-
-# def cate_list(request):
-#     cates = Cate.objects.all()
-#     return render(request,'form/allcate.html',context={'cates':cates})
+class ContextSelect(DetailView):
+    model = models.Context
+    template_name = 'form/context-select.html'
 
 
+class ExampleList(DetailView):
+    model = models.TrainExample
 
 
-# def cate_detail(request,id):
-#     cates = Cate.objects.get(pk=id)
-#     return render(request, 'form/category_detail.html',context={'category':cates,'cate_name':cates.category if not None else ''})
+class NewExample(CreateView):
+    model = models.TrainExample
 
-# def cate_create(request):
-#     cates = Cate.objects.all()
-#     return render(request, 'form/create_cate.html',context={'cates':cates})
 
-# def cate_create_detail(request,id):
-#     cates = Cate.objects.get(pk=id)
-#     return render(request, 'post_create_form.html',context={'category':cates,'cate_name':cates.category if not None else ''})
+    fields = ['example']
+    template_name = 'form/form.html'
 
-class PostCreate(CreateView,SuccessMessageMixin):
-    model = Post
-    form_class=myform
-    context_object_name='cates'
-    template_name_suffix='_create_form'
-    success_url='/create/'
-    
-    def form_valid(self,form):
-        form.instance.category=Cate.objects.get(pk=self.kwargs.get('pk'))
-        return super(PostCreate,self).form_valid(form)
-
-    
+    def form_valid(self, form):
+        form.instance.intent = models.Intent.objects.get(pk=self.kwargs.get('pk'))
+        return super(NewExample, self).form_valid(form)

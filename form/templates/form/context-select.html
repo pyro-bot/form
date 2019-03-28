@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="card text-center">  <h1 class="mb-5">Типы запросов:</h1></div>
-    {% for cate in cates %}
-        <h3><a href="{{ cate.get_absolute_url }}">{{cate.category}}</a></h3>
+    {% for obj in object.intent_set.all %}
+        <h3><a href="{% url 'form:intent-select' pk=obj.pk %}">{{ obj }}</a></h3>
     {% endfor %}
 {% endblock %}
