@@ -3,14 +3,15 @@ from django.db import models
 
 
 class Intent(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name='Название')
+    name = models.CharField(max_length=255, verbose_name='Название')
     context = models.ForeignKey('Context', on_delete=models.CASCADE, verbose_name='Контекст')
 
-    def __str__(self): return self.name
+    def __str__(self): return f'{self.context.name} | {self.name}'
 
     class Meta:
         verbose_name = 'Намерение'
         verbose_name_plural = 'Намерения'
+        unique_together = ['name', 'context']
 
 
 class Context(models.Model):

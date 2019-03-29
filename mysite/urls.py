@@ -18,8 +18,8 @@ from django.urls import path, include
 from django.conf.global_settings import DEBUG
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('form.urls')),
+    path('', admin.site.urls),
+    # path('', include('form.urls')),
 ]
 
 if DEBUG:
