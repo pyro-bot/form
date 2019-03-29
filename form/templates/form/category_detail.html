@@ -6,12 +6,16 @@
 {% endblock%}
 
 {% block script_head %}
-<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="card text-center">  <h1 class="mb-5">{{cates.category}}</h1> </div>
+<div class="card text-center"> <h1 class="mb-5" id="my">{{cates.category}}</h1> </div>
     {% for post in cates.pos.all %}
-        {% include 'includes/include.html' %}
+            {% include 'includes/include.html' %}
+            
+            <!-- <input type="button" id="mybutton" disabled value="Добавить сущность"> -->
     {% endfor %}
+    
 {% endblock %}

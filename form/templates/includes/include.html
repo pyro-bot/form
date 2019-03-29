@@ -1,6 +1,7 @@
 
 <div class="card text-center">
-        <div class="card-body">
-            <p class="card-text">{{post.body}}</p>
-        </div>
+        <div class="card-body " id="mytext">
+            <p class="card-text" >{{post.body}}</p>  
+            <a href="{% url 'update_post_url' pk=post.pk%}" class="btn btn-primary">Редактировать</a>
+        </div> 
 </div>

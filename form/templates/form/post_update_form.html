@@ -1,0 +1,35 @@
+{% extends "startform.html" %}
+{% load staticfiles%}
+
+{% block title %}
+    Редактирование запроса
+{% endblock%}
+
+{% block script_head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="mybutton" disabled value="Добавить сущность">
+        
+            <div class="collapse" id="collapseExample">
+              <div class="form-group">
+                <label >Вопрос:<input class="form-control" id="text" ></label>
+                <label >Сущность:<input class="form-control" id="text" ></label>
+                <label>Категория сущности: <select id="category" class="form-control">
+                        <option selected>1</option>
+                        <option>2</option>
+                      </select></label>
+                
+                <input type="button" value="Сохранить  сущность">
+                
+           
+              </div>
+              
+            </div>
+        <input type="submit" value="Сохранить">
+    </form>
+{% endblock %}

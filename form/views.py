@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django import forms
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView,DetailView,UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import gettext_lazy as _
+
 
 
 from .models import Post,Cate
@@ -10,31 +12,37 @@ from .form import myform
 
 
 class ListPost(ListView):
-    
     template_name='form/allpost.html'
     context_object_name='posts'
 
     def get_queryset(self):
         return Post.objects.all().order_by('-id')
-
+# отображаю все категории
 class ListCate(ListView):
     template_name='form/allcate.html'
     context_object_name='cates'
 
     def get_queryset(self):
         return Cate.objects.all()
-
+# отображаю все посты связаные с категорией
 class DetailCate(DetailView):
-    model=Cate
+    model = Cate
     template_name='form/category_detail.html'
     context_object_name='cates'
-
+# отображаю все категории для создания
 class ListCreateCate(ListView):
     template_name='form/create_cate.html'
     context_object_name='cates'
 
     def get_queryset(self):
         return Cate.objects.all()
+
+class PostUpdate(UpdateView):
+    model = Post
+    template_name_suffix='_update_form'
+    fields=['category','body']
+    success_url='/' 
+    
 
 
 # def posts_list(request):
@@ -60,7 +68,7 @@ class ListCreateCate(ListView):
 #     cates = Cate.objects.get(pk=id)
 #     return render(request, 'post_create_form.html',context={'category':cates,'cate_name':cates.category if not None else ''})
 
-class PostCreate(CreateView,SuccessMessageMixin):
+class PostCreate(CreateView):
     model = Post
     form_class=myform
     context_object_name='cates'
