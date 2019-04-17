@@ -2,6 +2,7 @@ from betterforms.multiform import MultiModelForm
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.forms import formset_factory, modelformset_factory
+from collections import OrderedDict
 
 from .models import Post, Essence, TypeEssence
 
@@ -30,7 +31,7 @@ class Dform (forms.ModelForm):
             'text': _('Сущность'),
             'essence': _('Категория сущности'),
         }
-Dformm = formset_factory(Dform, extra = 3, max_num = 20,can_delete=True)
+Dformm = modelformset_factory(Essence, Dform, extra = 3, max_num = 20,can_delete=True)
 
         
 class Myform2(MultiModelForm):
@@ -39,3 +40,23 @@ class Myform2(MultiModelForm):
         'dform': Dformm,
     }
         
+    def save(self, commit=True):
+        # objects = OrderedDict(
+        #     (key, form.save(commit))
+        #     for key, form in self.forms.items()
+        # )
+        objects = {}
+        objects['post'] = self.forms['post'].save(commit)
+
+        self.forms['dform'][0].instance.key = objects['post']
+        objects['dform'] = self.forms['dform'].save(commit)
+
+
+        if any(hasattr(form, 'save_m2m') for form in self.forms.values()):
+            def save_m2m():
+                for form in self.forms.values():
+                    if hasattr(form, 'save_m2m'):
+                        form.save_m2m()
+            self.save_m2m = save_m2m
+
+        return objects

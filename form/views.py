@@ -73,7 +73,7 @@ class PostCreate(CreateView):
     success_url='/create/'
     
     
-    def form_valid(self,form):
+    def form_valid(self, form):
         form['post'].instance.podcategory = PodCate.objects.get(pk=self.kwargs.get('pke'))
         form['dform'].initial = [ {'body_post':form['post'].instance.body}] 
         post = form['post'].save(commit = False)

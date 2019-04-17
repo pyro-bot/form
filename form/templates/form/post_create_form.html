@@ -1,9 +1,9 @@
 {% extends "startform.html" %}
-{% load staticfiles%}
+{% load staticfiles %}
 
 {% block title %}
     Создание запроса
-{% endblock%}
+{% endblock %}
 
 {% block script_head %}
     <script type="text/javascript" src="{% static 'js/post_create.js' %}"></script>
@@ -13,8 +13,14 @@
     <form method="post">
         {% csrf_token %}
         {{ formset.management_form }}
-        {{ form.as_p }}
-        
+        {{ form.post.as_p }}
+        {% for form_set in form.dform %}
+            <div class="d-none entity entity-{{ forloop.counter0 }}">
+                {{ form_set.as_p }}
+            </div>
+        {% endfor %}
+
+
         <!-- <input type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
           aria-controls="collapseExample" id="mybutton" disabled value="Добавить сущность">
             <div class="collapse" id="collapseExample">
@@ -30,5 +36,5 @@
             </div> -->
         <input type="submit" class="btn btn-primary" value="Сохранить">
     </form>
-    
+
 {% endblock %}
