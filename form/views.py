@@ -7,8 +7,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 
-from .models import Post,Cate
-from .form import myform
+from .models import Post,Cate,PodCate
+from .form import myform, Myform2
 
 
 class ListPost(ListView):
@@ -17,6 +17,7 @@ class ListPost(ListView):
 
     def get_queryset(self):
         return Post.objects.all().order_by('-id')
+
 # отображаю все категории
 class ListCate(ListView):
     template_name='form/allcate.html'
@@ -24,11 +25,29 @@ class ListCate(ListView):
 
     def get_queryset(self):
         return Cate.objects.all()
-# отображаю все посты связаные с категорией
+
+# отображаю все подкатегории категории
 class DetailCate(DetailView):
     model = Cate
-    template_name='form/category_detail.html'
+    template_name='form/podcate_detail.html'
     context_object_name='cates'
+    pk_url_kwarg = "pk"
+
+# отображаю все запросы с подкатегорией
+class DetailPodCate(DetailView):
+    model = PodCate
+    template_name='form/podcategory_detail.html'
+    context_object_name='cates'
+    pk_url_kwarg = "pke"
+
+
+class PostUpdate(UpdateView):
+    model = Post
+    template_name_suffix='_update_form'
+    fields=['podcategory','body']
+    success_url='/'
+
+
 # отображаю все категории для создания
 class ListCreateCate(ListView):
     template_name='form/create_cate.html'
@@ -37,46 +56,32 @@ class ListCreateCate(ListView):
     def get_queryset(self):
         return Cate.objects.all()
 
-class PostUpdate(UpdateView):
-    model = Post
-    template_name_suffix='_update_form'
-    fields=['category','body']
-    success_url='/' 
-    
+# отображаю все подкатегории категории для создания
+class CreateDetailCate(DetailView):
+    model = Cate
+    template_name='form/create_podcate_detail.html'
+    context_object_name='cates'
+    pk_url_kwarg = "pk"
 
 
-# def posts_list(request):
-#     posts = Post.objects.all().order_by('-id')
-#     return render(request,'form/allpost.html',context={'posts':posts})
-
-# def cate_list(request):
-#     cates = Cate.objects.all()
-#     return render(request,'form/allcate.html',context={'cates':cates})
-
-
-
-
-# def cate_detail(request,id):
-#     cates = Cate.objects.get(pk=id)
-#     return render(request, 'form/category_detail.html',context={'category':cates,'cate_name':cates.category if not None else ''})
-
-# def cate_create(request):
-#     cates = Cate.objects.all()
-#     return render(request, 'form/create_cate.html',context={'cates':cates})
-
-# def cate_create_detail(request,id):
-#     cates = Cate.objects.get(pk=id)
-#     return render(request, 'post_create_form.html',context={'category':cates,'cate_name':cates.category if not None else ''})
 
 class PostCreate(CreateView):
     model = Post
-    form_class=myform
+    form_class=Myform2
     context_object_name='cates'
     template_name_suffix='_create_form'
     success_url='/create/'
     
+    
     def form_valid(self,form):
-        form.instance.category=Cate.objects.get(pk=self.kwargs.get('pk'))
+        form['post'].instance.podcategory = PodCate.objects.get(pk=self.kwargs.get('pke'))
+        form['dform'].initial = [ {'body_post':form['post'].instance.body}] 
+        post = form['post'].save(commit = False)
+        dform = form['dform'].save(commit = False)
+        dform.post = post
+        dform.save()
+        
+
         return super(PostCreate,self).form_valid(form)
 
     

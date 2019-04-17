@@ -17,6 +17,7 @@
         crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     {% block script_head %}
 
     {% endblock %}
@@ -35,7 +36,7 @@
             </li>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'post_create_url' %}">Создать запрос<span
+                    <a class="nav-link" href="{% url 'cate_post_create_url' %}">Создать запрос<span
                             class="sr-only">(current)</span></a>
                 </li>
     </div>

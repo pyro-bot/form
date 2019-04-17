@@ -1,0 +1,12 @@
+{% extends "startform.html" %}
+
+{% block title %}
+    Создание запроса
+{% endblock%}
+
+{% block content %}
+<div class="card text-center">  <h1 class="mb-5">Типы запросов:</h1> </div>
+    {% for cate in cates.categ.all %}
+        <h3><a href="{{ cate.get_create_url }}">{{cate.podcategory}}</a></h3>
+    {% endfor %}
+{% endblock %}

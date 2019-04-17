@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="card text-center"> <h1 class="mb-5" id="my">{{cates.category}}</h1> </div>
+<div class="card text-center"> <h1 class="mb-5" id="my">{{cates.podcategory}}</h1> </div>
     {% for post in cates.pos.all %}
             {% include 'includes/include.html' %}
             

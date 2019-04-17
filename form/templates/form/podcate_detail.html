@@ -1,0 +1,13 @@
+{% extends "startform.html" %}
+
+{% block title %}
+    {{cate_name}}
+{% endblock%}
+
+{% block content %}
+<div class="card text-center"> <h1 class="mb-5" id="my">{{cates.category}}</h1> </div>
+    {% for cate in cates.categ.all %}
+        <h3><a href="{{ cate.get_absolute_url }}">{{cate.podcategory}}</a></h3>
+    {% endfor %}
+    
+{% endblock %}
